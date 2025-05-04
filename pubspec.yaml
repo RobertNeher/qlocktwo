@@ -1,0 +1,23 @@
+name: qlocktwo
+description: QlockTwo powered by Flutter"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts:
+  intl:
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints:
+
+flutter:
+  uses-material-design: true
+  assets:
+    - "assets/settings/settings.json"
