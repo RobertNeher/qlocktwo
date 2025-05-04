@@ -36,12 +36,11 @@ class _ClockFaceState extends State<ClockFace> {
         hour = int.parse(time.substring(0, 2));
         minute = int.parse(time.substring(3, 5));
       });
-      print('$hour:$minute');
     });
 
     TextStyle activeStyle = TextStyle(
       fontFamily: widget.settings['font'],
-      fontSize: widget.settings['charSize'].toDouble(),
+      fontSize: widget.settings['fontSize'],
       fontWeight: FontWeight.w100,
       color: colorFromString(widget.settings['charColorActive']),
       // shadows: <Shadow>[
@@ -54,7 +53,7 @@ class _ClockFaceState extends State<ClockFace> {
     );
     TextStyle inActiveStyle = TextStyle(
       fontFamily: widget.settings['font'],
-      fontSize: widget.settings['charSize'].toDouble(),
+      fontSize: widget.settings['fontSize'],
       fontWeight: FontWeight.w100,
       color: colorFromString(widget.settings['charColorInActive']),
       // shadows: <Shadow>[

@@ -1,8 +1,8 @@
 {
   "version": "0.1.0",
   "settings": {
-    "clockSize": 900,
-    "charSize": 60,
+    "clockSize": 200,
+    "fontSize": 15,
     "backgroundColorOrientation": "CENTER",
     "backgroundColor":[
         "#ff9933",
