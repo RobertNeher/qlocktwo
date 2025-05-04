@@ -27,14 +27,14 @@ class _ClockFaceState extends State<ClockFace> {
     super.initState();
 
     time = timeFormat.format(DateTime.now());
-    hour = int.parse(time.substring(0, 2));
+    hour = int.parse(time.substring(0, 2)) % 12;
     minute = roundMinute(5);
 
-    Timer _ = Timer.periodic(const Duration(minutes: 5), (_) {
+    Timer timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       setState(() {
         time = timeFormat.format(DateTime.now());
-        hour = int.parse(time.substring(0, 2));
-        minute = int.parse(time.substring(3, 5));
+        hour = int.parse(time.substring(0, 2)) % 12;
+        minute = roundMinute(5);
       });
     });
 
@@ -65,28 +65,30 @@ class _ClockFaceState extends State<ClockFace> {
       // ],
     );
 
-    String charRow = '';
-    List mask =
+    String minuteMaskRow = '';
+    // String hourMaskRow = '';
+    List minuteMask =
         widget.settings['fiveMinutesMapping'][(minute / 5).round()][minute
             .toString()];
+    List hourMask = widget.settings['hoursMapping'][hour][hour.toString()];
 
     for (int row = 0; row < widget.settings['qlockTwoChars'].length; row++) {
-      charRow = widget.settings['qlockTwoChars'][row];
+      minuteMaskRow = widget.settings['qlockTwoChars'][row];
 
-      for (int col = 0; col < charRow.length; col++) {
-        if (mask[row][col] == "0") {
+      for (int col = 0; col < minuteMaskRow.length; col++) {
+        if (minuteMask[row][col] == "1" || (hourMask[row][col] == "1")) {
           tileList.add(
             Container(
               alignment: Alignment.center,
-              child: Text(charRow[col], style: inActiveStyle),
+              child: Text(minuteMaskRow[col], style: activeStyle),
             ),
           );
+          continue;
         } else {
-          // if (mask[row][col] == "1") {
           tileList.add(
             Container(
               alignment: Alignment.center,
-              child: Text(charRow[col], style: activeStyle),
+              child: Text(minuteMaskRow[col], style: inActiveStyle),
             ),
           );
         }
