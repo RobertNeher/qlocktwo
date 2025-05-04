@@ -81,7 +81,6 @@ class _QlockTwoAppState extends State<QlockTwoApp> {
     if (windowSize < widget.settings['clockSize'].toDouble()) {
       windowSize = widget.settings['clockSize'].toDouble();
     }
-    print('$windowSize: ${windowSize / 20}');
     return Container(
       height: windowSize,
       width: windowSize,
