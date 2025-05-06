@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qlocktwo/src/helper.dart';
 import 'package:qlocktwo/src/qlocktwo_app.dart';
 
 void main() =>
@@ -46,7 +47,16 @@ class _QlockTwoState extends State<QlockTwo> with TickerProviderStateMixin {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return Center(child: QlockTwoApp(settings: settings));
+          TextStyle defaultTextStyle = TextStyle(
+            fontFamily: settings['font'],
+            fontSize: settings['fontSize'].toDouble(),
+            fontWeight: FontWeight.w100,
+            color: colorFromString(settings['charColorInActive']),
+          );
+          return DefaultTextStyle(
+            style: defaultTextStyle,
+            child: Center(child: QlockTwoApp(settings: settings)),
+          );
         } else {
           return const Text(
             'Something went wrong!',
