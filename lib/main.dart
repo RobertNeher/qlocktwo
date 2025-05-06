@@ -26,16 +26,16 @@ class _QlockTwoState extends State<QlockTwo> with TickerProviderStateMixin {
     super.initState();
   }
 
-  Future<void> _loadSettings() async {
+  Future<Map<String, dynamic>> _loadSettings() async {
     String jsonData = await rootBundle.loadString(
       'assets/settings/settings.json',
     );
-    settings = json.decode(jsonData)['settings'];
+    return json.decode(jsonData)['settings'];
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
+    return FutureBuilder<Map<String, dynamic>>(
       future: _loadSettings(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -47,14 +47,14 @@ class _QlockTwoState extends State<QlockTwo> with TickerProviderStateMixin {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          TextStyle defaultTextStyle = TextStyle(
-            fontFamily: settings['font'],
-            fontSize: settings['fontSize'].toDouble(),
-            fontWeight: FontWeight.w100,
-            color: colorFromString(settings['charColorInActive']),
-          );
+          settings = snapshot.data!;
           return DefaultTextStyle(
-            style: defaultTextStyle,
+            style: TextStyle(
+              fontFamily: settings['font'],
+              fontSize: settings['fontSize'].toDouble(),
+              fontWeight: FontWeight.w100,
+              color: colorFromString(settings['charColorInActive']),
+            ),
             child: Center(child: QlockTwoApp(settings: settings)),
           );
         } else {

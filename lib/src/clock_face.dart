@@ -17,26 +17,17 @@ class _ClockFaceState extends State<ClockFace> {
   int hour = 0;
   int minute = 0;
   String time = '';
-  late TextStyle activeStyle;
-  late TextStyle inActiveStyle;
+  TextStyle activeStyle = TextStyle();
+  TextStyle inActiveStyle = TextStyle();
   List<Widget> tileList = [];
   DateFormat timeFormat = DateFormat('HH:mm');
+  String minuteMaskRow = '';
+  List minuteMask = [];
+  List hourMask = [];
 
   @override
   void initState() {
     super.initState();
-
-    time = timeFormat.format(DateTime.now());
-    hour = int.parse(time.substring(0, 2)) % 12;
-    minute = roundMinute(5);
-
-    Timer timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      setState(() {
-        time = timeFormat.format(DateTime.now());
-        hour = int.parse(time.substring(0, 2)) % 12;
-        minute = roundMinute(5);
-      });
-    });
 
     TextStyle activeStyle = TextStyle(
       fontFamily: widget.settings['font'],
@@ -65,12 +56,32 @@ class _ClockFaceState extends State<ClockFace> {
       // ],
     );
 
-    String minuteMaskRow = '';
-    // String hourMaskRow = '';
-    List minuteMask =
+    time = timeFormat.format(DateTime.now());
+    hour = int.parse(time.substring(0, 2)) % 12;
+    minute = roundMinute(5);
+
+    Timer timer = Timer.periodic(const Duration(seconds: 300), (timer) {
+      setState(() {
+        time = timeFormat.format(DateTime.now());
+        hour = int.parse(time.substring(0, 2)) % 12;
+
+        if (hour == 0) {
+          hour = 1;
+        }
+        minute = roundMinute(5);
+
+        if (minute > 60) minute = 0;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    minuteMaskRow = '';
+    minuteMask =
         widget.settings['fiveMinutesMapping'][(minute / 5).round()][minute
             .toString()];
-    List hourMask = widget.settings['hoursMapping'][hour][hour.toString()];
+    hourMask = widget.settings['hoursMapping'][hour][hour.toString()];
 
     for (int row = 0; row < widget.settings['qlockTwoChars'].length; row++) {
       minuteMaskRow = widget.settings['qlockTwoChars'][row];
@@ -94,11 +105,8 @@ class _ClockFaceState extends State<ClockFace> {
         }
       }
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    print(time);
+    print('$hour:$minute');
     return GridView.count(
       shrinkWrap: true,
       primary: true,

@@ -9,8 +9,6 @@ import 'package:qlocktwo/src/helper.dart';
 
 class QlockTwoApp extends StatefulWidget {
   Map<String, dynamic> settings = {};
-  String hour = '';
-  String minute = '';
 
   QlockTwoApp({super.key, required this.settings});
 
@@ -27,12 +25,7 @@ class _QlockTwoAppState extends State<QlockTwoApp> {
   void initState() {
     qlockTwoActiveStyle = TextStyle();
     timer = Timer.periodic(const Duration(minutes: 5), (timer) {
-      setState(() {
-        String time = '';
-        time = timeFormat.format(DateTime.now());
-        widget.hour = time.substring(0, 2);
-        widget.minute = time.substring(3, 5);
-      });
+      setState(() {});
     });
     super.initState();
   }
