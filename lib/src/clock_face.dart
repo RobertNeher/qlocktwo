@@ -40,7 +40,7 @@ class _ClockFaceState extends State<ClockFace> {
 
     TextStyle activeStyle = TextStyle(
       fontFamily: widget.settings['font'],
-      fontSize: widget.settings['fontSize'],
+      fontSize: widget.settings['fontSize'].toDouble(),
       fontWeight: FontWeight.w100,
       color: colorFromString(widget.settings['charColorActive']),
       // shadows: <Shadow>[
@@ -53,7 +53,7 @@ class _ClockFaceState extends State<ClockFace> {
     );
     TextStyle inActiveStyle = TextStyle(
       fontFamily: widget.settings['font'],
-      fontSize: widget.settings['fontSize'],
+      fontSize: widget.settings['fontSize'].toDouble(),
       fontWeight: FontWeight.w100,
       color: colorFromString(widget.settings['charColorInActive']),
       // shadows: <Shadow>[
@@ -98,7 +98,10 @@ class _ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
+    print(time);
     return GridView.count(
+      shrinkWrap: true,
+      primary: true,
       crossAxisCount: widget.settings['qlockTwoChars'][0].length,
       children: tileList,
     );
