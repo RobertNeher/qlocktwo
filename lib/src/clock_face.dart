@@ -17,10 +17,10 @@ class _ClockFaceState extends State<ClockFace> {
   int hour = 0;
   int minute = 0;
   String time = '';
-  TextStyle activeStyle = TextStyle();
-  TextStyle inActiveStyle = TextStyle();
+  TextStyle? activeStyle;
+  TextStyle? inActiveStyle;
   List<Widget> tileList = [];
-  DateFormat timeFormat = DateFormat('HH:mm');
+  DateFormat timeFormat = DateFormat('HH');
   String minuteMaskRow = '';
   List minuteMask = [];
   List hourMask = [];
@@ -29,10 +29,10 @@ class _ClockFaceState extends State<ClockFace> {
   void initState() {
     super.initState();
 
-    TextStyle activeStyle = TextStyle(
+    activeStyle = TextStyle(
       fontFamily: widget.settings['font'],
       fontSize: widget.settings['fontSize'].toDouble(),
-      fontWeight: FontWeight.w100,
+      fontWeight: FontWeight.bold,
       color: colorFromString(widget.settings['charColorActive']),
       // shadows: <Shadow>[
       //   Shadow(
@@ -42,41 +42,43 @@ class _ClockFaceState extends State<ClockFace> {
       //   ),
       // ],
     );
-    TextStyle inActiveStyle = TextStyle(
+    inActiveStyle = TextStyle(
       fontFamily: widget.settings['font'],
       fontSize: widget.settings['fontSize'].toDouble(),
-      fontWeight: FontWeight.w100,
+      fontWeight: FontWeight.w200,
       color: colorFromString(widget.settings['charColorInActive']),
-      // shadows: <Shadow>[
-      //   Shadow(
-      //     offset: Offset(10.0, 10.0),
-      //     blurRadius: 3.0,
-      //     color: colorFromString(widget.settings['charShadowColorInActive']),
-      //   ),
-      // ],
+      shadows: <Shadow>[
+        Shadow(
+          offset: Offset(3.0, 3.0),
+          blurRadius: 2.0,
+          color: colorFromString(widget.settings['charShadowColorInActive']),
+        ),
+        Shadow(
+          offset: Offset(-3.0, -3.0),
+          blurRadius: 2.0,
+          color: colorFromString(widget.settings['charShadowColorActive']),
+        ),
+      ],
     );
 
-    time = timeFormat.format(DateTime.now());
-    hour = int.parse(time.substring(0, 2)) % 12;
+    hour = DateTime.now().hour % 12;
     minute = roundMinute(5);
 
-    Timer timer = Timer.periodic(const Duration(seconds: 300), (timer) {
+    Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        time = timeFormat.format(DateTime.now());
-        hour = int.parse(time.substring(0, 2)) % 12;
+        hour = DateTime.now().hour % 12;
+        minute = roundMinute(5);
 
         if (hour == 0) {
           hour = 1;
         }
-        minute = roundMinute(5);
-
-        if (minute > 60) minute = 0;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    tileList = <Widget>[];
     minuteMaskRow = '';
     minuteMask =
         widget.settings['fiveMinutesMapping'][(minute / 5).round()][minute
@@ -106,7 +108,6 @@ class _ClockFaceState extends State<ClockFace> {
       }
     }
 
-    print('$hour:$minute');
     return GridView.count(
       shrinkWrap: true,
       primary: true,
