@@ -1,20 +1,6 @@
 {
-  "version": "0.1.0",
-  "language": "de",
-  "settings": {
-    "clockSize": 600,
-    "fontSize": 50,
-    "backgroundColorOrientation": "CENTER",
-    "backgroundColor":[
-        "#ff9933",
-        "#ffbf80",
-        "#ffd9b3"
-    ],
-    "font": "RobotoFlex",
-    "charColorActive": "#ffffff",
-    "charShadowColorActive": "#b3b3b3",
-    "charColorInActive": "#bfbfbf",
-    "charShadowColorInActive": "#999999",
+    "version": "0.1.0",
+    "language": "de",
     "qlockTwoChars": [
         "ESKISTAFÜNF",
         "ZEHNZWANZIG",
@@ -27,7 +13,8 @@
         "SIEBENZWÖLF",
         "ZEHNEUNKUHR"
     ],
-    "fiveMinutesMapping": [
+    "fiveMinutesMapping":
+    [
         { "0": [
             "11 111     ",
             "           ",
@@ -365,5 +352,4 @@
             ]
         }
     ]
-}
 }

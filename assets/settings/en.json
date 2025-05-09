@@ -1,20 +1,6 @@
 {
   "version": "0.1.0",
   "language": "en",
-  "settings": {
-    "clockSize": 600,
-    "fontSize": 50,
-    "backgroundColorOrientation": "CENTER",
-    "backgroundColor":[
-        "#ff9933",
-        "#ffbf80",
-        "#ffd9b3"
-    ],
-    "font": "RobotoFlex",
-    "charColorActive": "#ffffff",
-    "charShadowColorActive": "#b3b3b3",
-    "charColorInActive": "#bfbfbf",
-    "charShadowColorInActive": "#999999",
     "qlockTwoChars": [
         "ITLISASAMPM",
         "ACQUARTERDC",
@@ -27,7 +13,8 @@
         "SEVENTWELVE",
         "TENSO'CLOCK"
     ],
-    "fiveMinutesMapping": [
+    "fiveMinutesMapping":
+    [
         { "0": [
             "11 111     ",
             "           ",
@@ -362,5 +349,4 @@
         { "AM": "       11  "},
         {  "PM": "         11"}
     ]
-}
 }
