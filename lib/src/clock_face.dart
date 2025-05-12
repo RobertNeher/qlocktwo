@@ -6,8 +6,13 @@ import 'package:qlocktwo/src/helper.dart';
 
 class ClockFace extends StatefulWidget {
   final Map<String, dynamic> settings;
+  final Map<String, dynamic> languageSettings;
 
-  ClockFace({super.key, required this.settings}) {}
+  ClockFace({
+    super.key,
+    required this.settings,
+    required this.languageSettings,
+  });
 
   @override
   State<ClockFace> createState() => _ClockFaceState();
@@ -64,7 +69,7 @@ class _ClockFaceState extends State<ClockFace> {
     hour = DateTime.now().hour % 12;
     minute = roundMinute(5);
 
-    Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    Timer timer = Timer.periodic(const Duration(seconds: 300), (timer) {
       setState(() {
         hour = DateTime.now().hour % 12;
         minute = roundMinute(5);

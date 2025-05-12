@@ -2,15 +2,18 @@ import 'dart:async';
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qlocktwo/src/background.dart';
 import 'package:qlocktwo/src/clock_face.dart';
-import 'package:qlocktwo/src/helper.dart';
 
 class QlockTwoApp extends StatefulWidget {
   Map<String, dynamic> settings = {};
+  final Map<String, dynamic> languageSettings;
 
-  QlockTwoApp({super.key, required this.settings});
+  QlockTwoApp({
+    super.key,
+    required this.settings,
+    required this.languageSettings,
+  });
 
   @override
   State<QlockTwoApp> createState() => _QlockTwoAppState();
@@ -36,7 +39,10 @@ class _QlockTwoAppState extends State<QlockTwoApp> {
       alignment: Alignment.topLeft,
       children: [
         Background(settings: widget.settings),
-        ClockFace(settings: widget.settings),
+        ClockFace(
+          settings: widget.settings,
+          languageSettings: widget.languageSettings,
+        ),
       ],
     );
   }
