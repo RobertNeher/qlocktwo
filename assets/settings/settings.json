@@ -13,7 +13,6 @@
     "charColorActive": "#ffffff",
     "charShadowColorActive": "#b3b3b3",
     "charColorInActive": "#bfbfbf",
-    "charShadowColorInActive": "#999999",
-    "language": "de"
+    "charShadowColorInActive": "#999999"
   }
 }

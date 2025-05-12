@@ -11,7 +11,8 @@ dependencies:
     sdk: flutter
   google_fonts:
   intl:
-  
+  shared_preferences:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -21,3 +22,5 @@ flutter:
   uses-material-design: true
   assets:
     - "assets/settings/settings.json"
+    - "assets/settings/de.json"
+    - "assets/settings/en.json"

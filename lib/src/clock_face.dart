@@ -86,12 +86,17 @@ class _ClockFaceState extends State<ClockFace> {
     tileList = <Widget>[];
     minuteMaskRow = '';
     minuteMask =
-        widget.settings['fiveMinutesMapping'][(minute / 5).round()][minute
+        widget.languageSettings['fiveMinutesMapping'][(minute / 5)
+            .round()][minute
             .toString()];
-    hourMask = widget.settings['hoursMapping'][hour][hour.toString()];
+    hourMask = widget.languageSettings['hoursMapping'][hour][hour.toString()];
 
-    for (int row = 0; row < widget.settings['qlockTwoChars'].length; row++) {
-      minuteMaskRow = widget.settings['qlockTwoChars'][row];
+    for (
+      int row = 0;
+      row < widget.languageSettings['qlockTwoChars'].length;
+      row++
+    ) {
+      minuteMaskRow = widget.languageSettings['qlockTwoChars'][row];
 
       for (int col = 0; col < minuteMaskRow.length; col++) {
         if (minuteMask[row][col] == "1" || (hourMask[row][col] == "1")) {
@@ -116,7 +121,7 @@ class _ClockFaceState extends State<ClockFace> {
     return GridView.count(
       shrinkWrap: true,
       primary: true,
-      crossAxisCount: widget.settings['qlockTwoChars'][0].length,
+      crossAxisCount: widget.languageSettings['qlockTwoChars'][0].length,
       children: tileList,
     );
   }
