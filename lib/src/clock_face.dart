@@ -8,7 +8,7 @@ class ClockFace extends StatefulWidget {
   final Map<String, dynamic> settings;
   final Map<String, dynamic> languageSettings;
 
-  ClockFace({
+  const ClockFace({
     super.key,
     required this.settings,
     required this.languageSettings,

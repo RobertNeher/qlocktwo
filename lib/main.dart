@@ -32,7 +32,7 @@ class _QlockTwoState extends State<QlockTwo> with TickerProviderStateMixin {
       'assets/settings/settings.json',
     );
     settings = json.decode(jsonData)['settings'];
-
+  
     if (settings['language'].length() >= 2) {
       jsonData = await rootBundle.loadString(
         'assets/settings/${settings['language']}.json',
