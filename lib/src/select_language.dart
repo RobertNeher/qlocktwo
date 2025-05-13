@@ -70,7 +70,7 @@ class _LanguageSelectionState extends State<LanguageSelection> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: Colors.black26),
-            color: Colors.redAccent,
+            color: Colors.orangeAccent,
           ),
           elevation: 2,
         ),
@@ -85,7 +85,7 @@ class _LanguageSelectionState extends State<LanguageSelection> {
           width: 200,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            color: Colors.redAccent,
+            color: Colors.deepOrangeAccent,
           ),
           offset: const Offset(-20, 0),
           scrollbarTheme: ScrollbarThemeData(radius: const Radius.circular(40)),
