@@ -69,7 +69,7 @@ class _ClockFaceState extends State<ClockFace> {
     hour = DateTime.now().hour % 12 + 1;
     minute = roundMinute(5);
 
-    Timer timer = Timer.periodic(const Duration(seconds: 300), (timer) {
+    Timer _ = Timer.periodic(const Duration(seconds: 300), (timer) {
       setState(() {
         hour = DateTime.now().hour % 12;
         minute = roundMinute(5);
