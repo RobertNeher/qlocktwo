@@ -66,7 +66,7 @@ class _ClockFaceState extends State<ClockFace> {
       ],
     );
 
-    hour = DateTime.now().hour % 12;
+    hour = DateTime.now().hour % 12 + 1;
     minute = roundMinute(5);
 
     Timer timer = Timer.periodic(const Duration(seconds: 300), (timer) {
@@ -74,8 +74,12 @@ class _ClockFaceState extends State<ClockFace> {
         hour = DateTime.now().hour % 12;
         minute = roundMinute(5);
 
+        if (hour != 0 && minute >= 30) {
+          hour += 1;
+        }
+
         if (hour == 0) {
-          hour = 1;
+          hour = 12;
         }
       });
     });
@@ -87,8 +91,7 @@ class _ClockFaceState extends State<ClockFace> {
     minuteMaskRow = '';
     minuteMask =
         widget.languageSettings['fiveMinutesMapping'][(minute / 5)
-            .round()][minute
-            .toString()];
+            .round()][minute.toString()];
     hourMask = widget.languageSettings['hoursMapping'][hour][hour.toString()];
 
     for (
