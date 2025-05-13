@@ -74,14 +74,15 @@ class _QlockTwoState extends State<QlockTwo>
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return DefaultTextStyle(
-            style: TextStyle(
-              fontFamily: settings['font'],
-              fontSize: settings['fontSize'].toDouble(),
-              fontWeight: FontWeight.w100,
-              color: colorFromString(settings['charColorInActive']),
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(widget.appBarTitle),
+              backgroundColor: Colors.blue,
+              actions: [
+                IconButton(icon: const Icon(Icons.settings), onPressed: () {}),
+              ],
             ),
-            child: Center(
+            body: Center(
               child: QlockTwoApp(
                 settings: settings,
                 languageSettings: languageSet,
