@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:qlocktwo/src/background.dart';
 import 'package:qlocktwo/src/clock_face.dart';
-import 'package:qlocktwo/src/select_language.dart';
+import 'package:qlocktwo/src/select_language._dart';
 
 class QlockTwoApp extends StatefulWidget {
   Map<String, dynamic> settings = {};
@@ -40,15 +40,9 @@ class _QlockTwoAppState extends State<QlockTwoApp> {
       alignment: Alignment.topLeft,
       children: [
         Background(settings: widget.settings),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            LanguageSelection(),
-            ClockFace(
-              settings: widget.settings,
-              languageSettings: widget.languageSettings,
-            ),
-          ],
+        ClockFace(
+          settings: widget.settings,
+          languageSettings: widget.languageSettings,
         ),
       ],
     );

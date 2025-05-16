@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qlocktwo/src/helper.dart';
 import 'package:qlocktwo/src/qlocktwo_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,9 +34,7 @@ class _QlockTwoState extends State<QlockTwo>
     widget.prefs = await SharedPreferences.getInstance();
     widget.language = widget.prefs.getString('language') ?? 'de';
 
-    String jsonData = await rootBundle.loadString(
-      'settings/settings.json',
-    );
+    String jsonData = await rootBundle.loadString('settings/settings.json');
     settings = json.decode(jsonData)['settings'];
 
     if (widget.language.length >= 2) {
@@ -47,6 +44,7 @@ class _QlockTwoState extends State<QlockTwo>
       languageSet = json.decode(jsonData);
     }
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.paused) {
@@ -58,6 +56,17 @@ class _QlockTwoState extends State<QlockTwo>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  void _handleClick(int item) {
+    switch (item) {
+      case 0: // German
+        break;
+      case 1: // English
+        break;
+      case 2: // French
+        break;
+    }
   }
 
   @override
@@ -78,8 +87,16 @@ class _QlockTwoState extends State<QlockTwo>
             appBar: AppBar(
               title: Text(widget.appBarTitle),
               backgroundColor: Colors.blue,
-              actions: [
-                IconButton(icon: const Icon(Icons.settings), onPressed: () {}),
+              actions: <Widget>[
+                PopupMenuButton<int>(
+                  onSelected: (item) => _handleClick(item),
+                  itemBuilder:
+                      (context) => [
+                        PopupMenuItem<int>(value: 0, child: Text('German')),
+                        PopupMenuItem<int>(value: 1, child: Text('English')),
+                        PopupMenuItem<int>(value: 2, child: Text('French')),
+                      ],
+                ),
               ],
             ),
             body: Center(
@@ -104,3 +121,4 @@ class _QlockTwoState extends State<QlockTwo>
     );
   }
 }
+
