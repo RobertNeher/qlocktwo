@@ -88,6 +88,7 @@ class _ClockFaceState extends State<ClockFace> {
   @override
   Widget build(BuildContext context) {
     tileList = <Widget>[];
+    print(minute / 5);
     minuteMaskRow = '';
     minuteMask =
         widget.languageSettings['fiveMinutesMapping'][(minute / 5)
