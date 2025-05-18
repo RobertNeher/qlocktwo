@@ -25,3 +25,4 @@ flutter:
     - "assets/settings/settings.json"
     - "assets/settings/de.json"
     - "assets/settings/en.json"
+    - "assets/icons/"
