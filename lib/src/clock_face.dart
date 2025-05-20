@@ -68,7 +68,8 @@ class _ClockFaceState extends State<ClockFace> {
 
     hour = DateTime.now().hour % 12 + 1;
     minute = roundMinute(5);
-
+    // hour = 6;
+    // minute = 0;
     Timer _ = Timer.periodic(const Duration(seconds: 300), (timer) {
       setState(() {
         hour = DateTime.now().hour % 12;
@@ -77,6 +78,9 @@ class _ClockFaceState extends State<ClockFace> {
         if (hour != 0 && minute >= 30) {
           hour += 1;
         }
+        // else {
+        //   hour -= 1;
+        // }
 
         if (hour == 0) {
           hour = 12;
@@ -88,7 +92,6 @@ class _ClockFaceState extends State<ClockFace> {
   @override
   Widget build(BuildContext context) {
     tileList = <Widget>[];
-    print(minute / 5);
     minuteMaskRow = '';
     minuteMask =
         widget.languageSettings['fiveMinutesMapping'][(minute / 5)

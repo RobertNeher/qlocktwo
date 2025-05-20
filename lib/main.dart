@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,16 +62,26 @@ class _QlockTwoState extends State<QlockTwo>
   void _handleClick(int item) {
     switch (item) {
       case 0: // German
+        widget.prefs.setString('language', 'de');
+        widget.language = 'de';
         break;
       case 1: // English
+        widget.prefs.setString('language', 'en');
+        widget.language = 'en';
         break;
       case 2: // French
+        widget.prefs.setString('language', 'fr');
+        widget.language = 'fr';
         break;
     }
+    initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _hourController = TextEditingController();
+    TextEditingController _minuteController = TextEditingController();
+
     return FutureBuilder<void>(
       future: _loadSettings(),
       builder: (context, snapshot) {
@@ -87,24 +98,92 @@ class _QlockTwoState extends State<QlockTwo>
             appBar: AppBar(
               title: Text(widget.appBarTitle),
               backgroundColor: Colors.blue,
+              centerTitle: true,
+              automaticallyImplyLeading: true,
+              bottomOpacity: 0.5,
+              toolbarHeight: 60,
               actions: <Widget>[
                 PopupMenuButton<int>(
+                  padding: const EdgeInsets.all(20),
+                  constraints: const BoxConstraints(
+                    minWidth: 50,
+                    maxWidth: 105,
+                  ),
+                  elevation: 20,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
                   onSelected: (item) => _handleClick(item),
                   itemBuilder:
                       (context) => [
-                        PopupMenuItem<int>(value: 0, child: Text('German')),
-                        PopupMenuItem<int>(value: 1, child: Text('English')),
-                        PopupMenuItem<int>(value: 2, child: Text('French')),
+                        PopupMenuItem<int>(
+                          value: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Image.asset('icons/de.png', height: 15),
+                              SizedBox(width: 10),
+                              Text('German'),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem<int>(
+                          value: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Image.asset('icons/en.png', height: 15),
+                              SizedBox(width: 10),
+                              Text('English'),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem<int>(
+                          value: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Image.asset('icons/fr.png', height: 15),
+                              SizedBox(width: 10),
+                              Text('French'),
+                            ],
+                          ),
+                        ),
                       ],
                 ),
               ],
             ),
-            body: Center(
-              child: QlockTwoApp(
-                settings: settings,
-                languageSettings: languageSet,
+            body: Expanded(
+              child: Column(
+                children: [
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextField(
+                        controller: _hourController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Hour',
+                        ),
+                      ),
+                      Text(' : '),
+                      TextField(
+                        controller: _minuteController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Minute',
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                    ],
+                  ),
+                  Center(
+                    child: QlockTwoApp(
+                      settings: settings,
+                      languageSettings: languageSet,
+                    ),
+                  ),
+                ],
               ),
-            ),
+            )
           );
         } else {
           return const Text(
@@ -121,4 +200,3 @@ class _QlockTwoState extends State<QlockTwo>
     );
   }
 }
-
