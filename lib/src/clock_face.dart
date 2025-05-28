@@ -7,9 +7,13 @@ import 'package:qlocktwo/src/helper.dart';
 class ClockFace extends StatefulWidget {
   final Map<String, dynamic> settings;
   final Map<String, dynamic> languageSettings;
+  final int hour;
+  final int minute;
 
   const ClockFace({
     super.key,
+    required this.hour,
+    required this.minute,
     required this.settings,
     required this.languageSettings,
   });
@@ -70,23 +74,23 @@ class _ClockFaceState extends State<ClockFace> {
     minute = roundMinute(5);
     // hour = 6;
     // minute = 0;
-    Timer _ = Timer.periodic(const Duration(seconds: 300), (timer) {
-      setState(() {
-        hour = DateTime.now().hour % 12;
-        minute = roundMinute(5);
+    // Timer _ = Timer.periodic(const Duration(seconds: 300), (timer) {
+    //   setState(() {
+    //     hour = DateTime.now().hour % 12;
+    //     minute = roundMinute(5);
 
-        if (hour != 0 && minute >= 30) {
-          hour += 1;
-        }
-        // else {
-        //   hour -= 1;
-        // }
+    //     if (hour != 0 && minute >= 30) {
+    //       hour += 1;
+    //     }
+    //     // else {
+    //     //   hour -= 1;
+    //     // }
 
-        if (hour == 0) {
-          hour = 12;
-        }
-      });
-    });
+    //     if (hour == 0) {
+    //       hour = 12;
+    //     }
+    //   });
+    // });
   }
 
   @override

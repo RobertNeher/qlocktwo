@@ -21,8 +21,12 @@ class QlockTwo extends StatefulWidget {
 
 class _QlockTwoState extends State<QlockTwo>
     with TickerProviderStateMixin, WidgetsBindingObserver {
+  TextEditingController _hourController = TextEditingController();
+  TextEditingController _minuteController = TextEditingController();
   Map<String, dynamic> settings = {};
   Map<String, dynamic> languageSet = {};
+  int hour = 0;
+  int minute = 0;
 
   @override
   void initState() {
@@ -79,9 +83,6 @@ class _QlockTwoState extends State<QlockTwo>
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _hourController = TextEditingController();
-    TextEditingController _minuteController = TextEditingController();
-
     return FutureBuilder<void>(
       future: _loadSettings(),
       builder: (context, snapshot) {
@@ -97,7 +98,7 @@ class _QlockTwoState extends State<QlockTwo>
           return Scaffold(
             appBar: AppBar(
               title: Text(widget.appBarTitle),
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.transparent,
               centerTitle: true,
               automaticallyImplyLeading: true,
               bottomOpacity: 0.5,
@@ -113,7 +114,7 @@ class _QlockTwoState extends State<QlockTwo>
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   onSelected: (item) => _handleClick(item),
                   itemBuilder:
-                      (context) => [
+                      (BuildContext context) => [
                         PopupMenuItem<int>(
                           value: 0,
                           child: Row(
@@ -137,7 +138,7 @@ class _QlockTwoState extends State<QlockTwo>
                           ),
                         ),
                         PopupMenuItem<int>(
-                          value: 0,
+                          value: 20,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -151,39 +152,10 @@ class _QlockTwoState extends State<QlockTwo>
                 ),
               ],
             ),
-            body: Expanded(
-              child: Column(
-                children: [
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextField(
-                        controller: _hourController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Hour',
-                        ),
-                      ),
-                      Text(' : '),
-                      TextField(
-                        controller: _minuteController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Minute',
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                    ],
-                  ),
-                  Center(
-                    child: QlockTwoApp(
-                      settings: settings,
-                      languageSettings: languageSet,
-                    ),
-                  ),
-                ],
-              ),
-            )
+            body: QlockTwoApp(
+              settings: settings,
+              languageSettings: languageSet,
+            ),
           );
         } else {
           return const Text(
