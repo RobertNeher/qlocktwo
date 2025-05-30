@@ -13,6 +13,7 @@
     "charColorActive": "#ffffff",
     "charShadowColorActive": "#b3b3b3",
     "charColorInActive": "#bfbfbf",
-    "charShadowColorInActive": "#999999"
+    "charShadowColorInActive": "#999999",
+    "debugMode": true
   }
 }

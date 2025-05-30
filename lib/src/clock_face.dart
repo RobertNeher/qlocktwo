@@ -55,7 +55,6 @@ class _ClockFaceState extends State<ClockFace> {
       fontFamily: widget.settings['font'],
       fontSize: widget.settings['fontSize'].toDouble(),
       fontWeight: FontWeight.w200,
-      // color: colorFromString(widget.settings['charColorInActive']),
       foreground:
           Paint()
             ..color = colorFromString(widget.settings['charColorInActive'])
@@ -82,24 +81,48 @@ class _ClockFaceState extends State<ClockFace> {
       hour = 12;
     }
 
-    Timer _ = Timer.periodic(const Duration(seconds: 300), (timer) {
-      setState(() {
-        hour = DateTime.now().hour % 12;
-        minute = roundMinute(5);
+    if (widget.settings['debugMode'] ?? true) {
+      Timer.periodic(const Duration(milliseconds: 500), (timer) {
+        setState(() {
+          minute += 5;
+          if (minute >= 60) {
+            minute = 0;
+            hour += 1;
+            hour %= 12;
 
-        if (hour != 0 && minute >= 30) {
-          hour += 1;
-        }
+            if (hour != 0 && minute >= 30) {
+              hour += 1;
+            }
 
-        if (hour == 0) {
-          hour = 12;
-        }
+            if (hour == 0) {
+              hour = 12;
+            }
+          }
+        });
       });
-    });
+    } else {
+      Timer _ = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
+        setState(() {
+          hour = DateTime.now().hour % 12;
+          minute = roundMinute(5);
+
+          if (hour != 0 && minute >= 30) {
+            hour += 1;
+          }
+
+          if (hour == 0) {
+            hour = 12;
+          }
+        });
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(
+      '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+    );
     tileList = <Widget>[];
     minuteMaskRow = '';
     minuteMask =
