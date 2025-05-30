@@ -138,7 +138,7 @@ class _QlockTwoState extends State<QlockTwo>
                           ),
                         ),
                         PopupMenuItem<int>(
-                          value: 20,
+                          value: 2,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
