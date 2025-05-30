@@ -78,7 +78,7 @@ class _QlockTwoState extends State<QlockTwo>
         widget.language = 'fr';
         break;
     }
-    initState();
+    setState(() {});
   }
 
   @override
