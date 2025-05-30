@@ -55,23 +55,33 @@ class _ClockFaceState extends State<ClockFace> {
       fontFamily: widget.settings['font'],
       fontSize: widget.settings['fontSize'].toDouble(),
       fontWeight: FontWeight.w200,
-      color: colorFromString(widget.settings['charColorInActive']),
+      // color: colorFromString(widget.settings['charColorInActive']),
+      foreground:
+          Paint()
+            ..color = colorFromString(widget.settings['charColorInActive'])
+            ..strokeWidth = 2
+            ..strokeCap = StrokeCap.round
+            ..style = PaintingStyle.stroke,
       shadows: <Shadow>[
         Shadow(
-          offset: Offset(3.0, 3.0),
-          blurRadius: 2.0,
+          offset: Offset(2.0, 2.0),
+          blurRadius: 1.0,
           color: colorFromString(widget.settings['charShadowColorInActive']),
-        ),
-        Shadow(
-          offset: Offset(-3.0, -3.0),
-          blurRadius: 2.0,
-          color: colorFromString(widget.settings['charShadowColorActive']),
         ),
       ],
     );
 
-    // hour = DateTime.now().hour % 12 + 1;
-    // minute = roundMinute(5);
+    hour = DateTime.now().hour % 12;
+    minute = roundMinute(5);
+
+    if (hour != 0 && minute >= 30) {
+      hour += 1;
+    }
+
+    if (hour == 0) {
+      hour = 12;
+    }
+
     Timer _ = Timer.periodic(const Duration(seconds: 300), (timer) {
       setState(() {
         hour = DateTime.now().hour % 12;
