@@ -120,9 +120,11 @@ class _ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-      '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
-    );
+    if (widget.settings['debugMode'] ?? true) {
+      print(
+        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+      );
+    }
     tileList = <Widget>[];
     minuteMaskRow = '';
     minuteMask =
