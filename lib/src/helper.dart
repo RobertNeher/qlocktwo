@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 // colorString is expected in following format:
@@ -10,10 +11,10 @@ Color colorFromString(String colorString) {
 
 Color complimentaryColor(Color color) {
   return Color.fromARGB(
-    255 - color.alpha,
-    255 - color.red,
-    255 - color.blue,
-    255 - color.green,
+    255 - color.a.round(),
+    255 - color.r.round(),
+    255 - color.b.round(),
+    255 - color.g.round(),
   );
 }
 
@@ -31,4 +32,11 @@ int roundMinute(int denominator) {
   int roundedTime = (minute / denominator).round();
   roundedTime *= denominator;
   return roundedTime;
+}
+
+String ampm(int hour, int minute) {
+  String timeString = DateFormat.jm().format(
+    DateFormat("hh:mm").parse('$hour:$minute'),
+  );
+  return timeString.substring(timeString.length - 2).toUpperCase();
 }
