@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:qlocktwo/src/background.dart';
 import 'package:qlocktwo/src/clock_face.dart';
 import 'package:qlocktwo/src/helper.dart';
-import 'package:qlocktwo/src/select_language._dart';
 
 class QlockTwoApp extends StatefulWidget {
   Map<String, dynamic> settings = {};
