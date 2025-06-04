@@ -40,3 +40,22 @@ String ampm(int hour, int minute) {
   );
   return timeString.substring(timeString.length - 2).toUpperCase();
 }
+
+String getAMPMMask(int hour, List ampm) {
+  String timeString = DateFormat.jm().format(
+    DateFormat("hh:mm").parse('$hour:00'),
+  );
+
+  String ampmKey = timeString.substring(timeString.length - 2).toUpperCase();
+
+  for (Map<String, dynamic> map in ampm) {
+    if (map.keys.toString().substring(1, 3) == ampmKey) {
+      return map.values.toString().substring(
+        1,
+        map.values.toString().length - 1,
+      );
+    }
+  }
+
+  return '';
+}
