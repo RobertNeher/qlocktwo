@@ -33,21 +33,11 @@ class _ClockFaceState extends State<ClockFace> {
   String minuteMaskRow = '';
   List minuteMask = [];
   List hourMask = [];
-  String ampmMask = '';
   late Timer timer;
 
   @override
   void initState() {
     super.initState();
-
-    if (widget.languageSettings['language'] == 'en') {
-      ampmMask = getAMPMMask(
-        DateTime.now().hour,
-        widget.languageSettings['ampmMapping'],
-      );
-    } else {
-      ampmMask = '';
-    }
 
     activeStyle = TextStyle(
       fontFamily: widget.settings['font'],
@@ -86,24 +76,27 @@ class _ClockFaceState extends State<ClockFace> {
     }
 
     if (widget.settings['debugMode'] ?? true) {
-      timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-        setState(() {
-          minute += 5;
-          if (minute >= 60) {
-            minute = 0;
-            hour += 1;
-            hour %= 12;
-
-            if (hour != 0 && minute >= 30) {
+      timer = Timer.periodic(
+        Duration(milliseconds: widget.settings['debugPeriod']),
+        (timer) {
+          setState(() {
+            minute += 5;
+            if (minute >= 60) {
+              minute = 0;
               hour += 1;
-            }
+              hour %= 12;
 
-            if (hour == 0) {
-              hour = 12;
+              if (hour != 0 && minute >= 30) {
+                hour += 1;
+              }
+
+              if (hour == 0) {
+                hour = 12;
+              }
             }
-          }
-        });
-      });
+          });
+        },
+      );
     } else {
       timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
         setState(() {
@@ -142,13 +135,10 @@ class _ClockFaceState extends State<ClockFace> {
             .round()][minute.toString()];
     hourMask = widget.languageSettings['hoursMapping'][hour][hour.toString()];
 
-    if (widget.languageSettings['language'] == 'en') {
-      ampmMask = getAMPMMask(
-        widget.hour,
-        widget.languageSettings['ampmMapping'],
+    if (widget.settings['debugMode'] ?? true) {
+      print(
+        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
       );
-    } else {
-      ampmMask = '';
     }
 
     for (
@@ -159,12 +149,8 @@ class _ClockFaceState extends State<ClockFace> {
       minuteMaskRow = widget.languageSettings['qlockTwoChars'][row];
 
       for (int col = 0; col < minuteMaskRow.length; col++) {
-        if (col == 0) {}
-        if (minuteMask[row][col] == '1' ||
-            (hourMask[row][col] == '1') ||
-            (widget.languageSettings['language'] == 'en' &&
-                row == 0 &&
-                ampmMask[col] == '1')) {
+        if (minuteMask[row][col] == "1" || (hourMask[row][col] == "1" ||
+            )) {
           tileList.add(
             Container(
               alignment: Alignment.center,
