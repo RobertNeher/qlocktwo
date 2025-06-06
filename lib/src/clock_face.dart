@@ -40,28 +40,28 @@ class _ClockFaceState extends State<ClockFace> {
     super.initState();
 
     activeStyle = TextStyle(
-      fontFamily: widget.settings['font'],
-      fontSize: widget.settings['fontSize'].toDouble(),
+      fontFamily: widget.settings['fontActive'],
+      fontSize: widget.settings['fontSizeActive'].toDouble(),
       fontWeight: FontWeight.bold,
       color: colorFromString(widget.settings['charColorActive']),
     );
     inActiveStyle = TextStyle(
-      fontFamily: widget.settings['font'],
-      fontSize: widget.settings['fontSize'].toDouble(),
+      fontFamily: widget.settings['fontInActive'],
+      fontSize: widget.settings['fontSizeInActive'].toDouble(),
       fontWeight: FontWeight.w200,
       foreground:
           Paint()
             ..color = colorFromString(widget.settings['charColorInActive'])
-            ..strokeWidth = 2
-            ..strokeCap = StrokeCap.round
+            ..strokeWidth = 3
+            ..strokeCap = StrokeCap.butt
             ..style = PaintingStyle.stroke,
-      shadows: <Shadow>[
-        Shadow(
-          offset: Offset(2.0, 2.0),
-          blurRadius: 1.0,
-          color: colorFromString(widget.settings['charShadowColorInActive']),
-        ),
-      ],
+      // shadows: <Shadow>[
+      //   Shadow(
+      //     offset: Offset(2.0, 2.0),
+      //     blurRadius: 1.0,
+      //     color: colorFromString(widget.settings['charShadowColorInActive']),
+      //   ),
+      // ],
     );
 
     hour = DateTime.now().hour % 12;
@@ -146,11 +146,16 @@ class _ClockFaceState extends State<ClockFace> {
       row < widget.languageSettings['qlockTwoChars'].length;
       row++
     ) {
+      if (widget.languageSettings['language'] == 'fr' &&
+          [0, 12].contains(hour) &&
+          minute == 0) {
+        continue;
+      }
+
       minuteMaskRow = widget.languageSettings['qlockTwoChars'][row];
 
       for (int col = 0; col < minuteMaskRow.length; col++) {
-        if (minuteMask[row][col] == "1" || (hourMask[row][col] == "1" ||
-            )) {
+        if (minuteMask[row][col] == "1" || hourMask[row][col] == "1") {
           tileList.add(
             Container(
               alignment: Alignment.center,

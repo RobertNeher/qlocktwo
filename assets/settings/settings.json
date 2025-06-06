@@ -2,19 +2,21 @@
   "version": "0.1.0",
   "settings": {
     "clockSize": 600,
-    "fontSize": 50,
+    "fontSizeActive": 50,
+    "fontSizeInActive": 50,
     "backgroundColorOrientation": "CENTER",
     "backgroundColor":[
         "#ff9933",
         "#ffbf80",
-        "#ffd9b3"
+        "#ffdb99"
     ],
-    "font": "RobotoFlex",
+    "fontActive": "RobotoFlex",
+    "fontInActive": "Rubik Vinyl",
     "charColorActive": "#ffffff",
     "charShadowColorActive": "#b3b3b3",
-    "charColorInActive": "#bfbfbf",
-    "charShadowColorInActive": "#999999",
+    "charColorInActive": "#999999",
+    "charShadowColorInActive": "#",
     "debugMode": true,
-    "debugPeriod": 1000
+    "debugPeriod": 500
   }
 }
