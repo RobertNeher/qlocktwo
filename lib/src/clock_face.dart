@@ -55,13 +55,6 @@ class _ClockFaceState extends State<ClockFace> {
             ..strokeWidth = 3
             ..strokeCap = StrokeCap.butt
             ..style = PaintingStyle.stroke,
-      // shadows: <Shadow>[
-      //   Shadow(
-      //     offset: Offset(2.0, 2.0),
-      //     blurRadius: 1.0,
-      //     color: colorFromString(widget.settings['charShadowColorInActive']),
-      //   ),
-      // ],
     );
 
     hour = DateTime.now().hour % 12;
