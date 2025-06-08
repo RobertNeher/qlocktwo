@@ -6,8 +6,17 @@ import 'package:qlocktwo/src/helper.dart';
 
 class ClockFace extends StatefulWidget {
   final Map<String, dynamic> settings;
+  final Map<String, dynamic> languageSettings;
+  final int hour;
+  final int minute;
 
-  ClockFace({super.key, required this.settings}) {}
+  const ClockFace({
+    super.key,
+    required this.hour,
+    required this.minute,
+    required this.settings,
+    required this.languageSettings,
+  });
 
   @override
   State<ClockFace> createState() => _ClockFaceState();
@@ -17,77 +26,129 @@ class _ClockFaceState extends State<ClockFace> {
   int hour = 0;
   int minute = 0;
   String time = '';
-  TextStyle activeStyle = TextStyle();
-  TextStyle inActiveStyle = TextStyle();
+  TextStyle? activeStyle;
+  TextStyle? inActiveStyle;
   List<Widget> tileList = [];
-  DateFormat timeFormat = DateFormat('HH:mm');
+  DateFormat timeFormat = DateFormat('HH');
   String minuteMaskRow = '';
   List minuteMask = [];
   List hourMask = [];
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
 
-    TextStyle activeStyle = TextStyle(
-      fontFamily: widget.settings['font'],
-      fontSize: widget.settings['fontSize'].toDouble(),
-      fontWeight: FontWeight.w100,
+    activeStyle = TextStyle(
+      fontFamily: widget.settings['fontActive'],
+      fontSize: widget.settings['fontSizeActive'].toDouble(),
+      fontWeight: FontWeight.bold,
       color: colorFromString(widget.settings['charColorActive']),
-      // shadows: <Shadow>[
-      //   Shadow(
-      //     offset: Offset(10.0, 10.0),
-      //     blurRadius: 3.0,
-      //     color: colorFromString(widget.settings['charShadowColorActive']),
-      //   ),
-      // ],
     );
-    TextStyle inActiveStyle = TextStyle(
-      fontFamily: widget.settings['font'],
-      fontSize: widget.settings['fontSize'].toDouble(),
-      fontWeight: FontWeight.w100,
-      color: colorFromString(widget.settings['charColorInActive']),
-      // shadows: <Shadow>[
-      //   Shadow(
-      //     offset: Offset(10.0, 10.0),
-      //     blurRadius: 3.0,
-      //     color: colorFromString(widget.settings['charShadowColorInActive']),
-      //   ),
-      // ],
+    inActiveStyle = TextStyle(
+      fontFamily: widget.settings['fontInActive'],
+      fontSize: widget.settings['fontSizeInActive'].toDouble(),
+      fontWeight: FontWeight.w200,
+      foreground:
+          Paint()
+            ..color = colorFromString(widget.settings['charColorInActive'])
+            ..strokeWidth = 3
+            ..strokeCap = StrokeCap.butt
+            ..style = PaintingStyle.stroke,
     );
 
-    time = timeFormat.format(DateTime.now());
-    hour = int.parse(time.substring(0, 2)) % 12;
+    hour = DateTime.now().hour % 12;
     minute = roundMinute(5);
 
-    Timer timer = Timer.periodic(const Duration(seconds: 300), (timer) {
-      setState(() {
-        time = timeFormat.format(DateTime.now());
-        hour = int.parse(time.substring(0, 2)) % 12;
+    if (hour != 0 && minute >= 30) {
+      hour += 1;
+    }
 
-        if (hour == 0) {
-          hour = 1;
-        }
-        minute = roundMinute(5);
+    if (hour == 0) {
+      hour = 12;
+    }
 
-        if (minute > 60) minute = 0;
+    if (widget.settings['debugMode'] ?? true) {
+      timer = Timer.periodic(
+        Duration(milliseconds: widget.settings['debugPeriod']),
+        (timer) {
+          setState(() {
+            minute += 5;
+            if (minute >= 60) {
+              minute = 0;
+              hour += 1;
+              hour %= 12;
+
+              if (hour != 0 && minute >= 30) {
+                hour += 1;
+              }
+
+              if (hour == 0) {
+                hour = 12;
+              }
+            }
+          });
+        },
+      );
+    } else {
+      timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
+        setState(() {
+          hour = DateTime.now().hour % 12;
+          minute = roundMinute(5);
+
+          if (hour != 0 && minute >= 30) {
+            hour += 1;
+          }
+
+          if (hour == 0) {
+            hour = 12;
+          }
+        });
       });
-    });
+    }
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.settings['debugMode'] ?? true) {
+      print(
+        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+      );
+    }
+    tileList = <Widget>[];
     minuteMaskRow = '';
     minuteMask =
-        widget.settings['fiveMinutesMapping'][(minute / 5).round()][minute
-            .toString()];
-    hourMask = widget.settings['hoursMapping'][hour][hour.toString()];
+        widget.languageSettings['fiveMinutesMapping'][(minute / 5)
+            .round()][minute.toString()];
+    hourMask = widget.languageSettings['hoursMapping'][hour][hour.toString()];
 
-    for (int row = 0; row < widget.settings['qlockTwoChars'].length; row++) {
-      minuteMaskRow = widget.settings['qlockTwoChars'][row];
+    if (widget.settings['debugMode'] ?? true) {
+      print(
+        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+      );
+    }
+
+    for (
+      int row = 0;
+      row < widget.languageSettings['qlockTwoChars'].length;
+      row++
+    ) {
+      if (widget.languageSettings['language'] == 'fr' &&
+          [0, 12].contains(hour) &&
+          minute == 0) {
+        continue;
+      }
+
+      minuteMaskRow = widget.languageSettings['qlockTwoChars'][row];
 
       for (int col = 0; col < minuteMaskRow.length; col++) {
-        if (minuteMask[row][col] == "1" || (hourMask[row][col] == "1")) {
+        if (minuteMask[row][col] == "1" || hourMask[row][col] == "1") {
           tileList.add(
             Container(
               alignment: Alignment.center,
@@ -106,11 +167,10 @@ class _ClockFaceState extends State<ClockFace> {
       }
     }
 
-    print('$hour:$minute');
     return GridView.count(
       shrinkWrap: true,
       primary: true,
-      crossAxisCount: widget.settings['qlockTwoChars'][0].length,
+      crossAxisCount: widget.languageSettings['qlockTwoChars'][0].length,
       children: tileList,
     );
   }
