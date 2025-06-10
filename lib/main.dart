@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qlocktwo/src/qlocktwo_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() =>
     runApp(MaterialApp(home: QlockTwo(), debugShowCheckedModeBanner: false));
@@ -21,8 +21,6 @@ class QlockTwo extends StatefulWidget {
 
 class _QlockTwoState extends State<QlockTwo>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-  TextEditingController _hourController = TextEditingController();
-  TextEditingController _minuteController = TextEditingController();
   Map<String, dynamic> settings = {};
   Map<String, dynamic> languageSet = {};
   int hour = 0;
@@ -36,15 +34,23 @@ class _QlockTwoState extends State<QlockTwo>
   }
 
   Future<void> _loadSettings() async {
+    String pathPrefix = '';
+    if (kIsWeb) {
+      pathPrefix = '';
+    } else {
+      pathPrefix = 'assets/';
+    }
     widget.prefs = await SharedPreferences.getInstance();
     widget.language = widget.prefs.getString('language') ?? 'de';
 
-    String jsonData = await rootBundle.loadString('settings/settings.json');
+    String jsonData = await rootBundle.loadString(
+      '${pathPrefix}settings/settings.json',
+    );
     settings = json.decode(jsonData)['settings'];
 
     if (widget.language.length >= 2) {
       jsonData = await rootBundle.loadString(
-        'settings/${widget.language}.json',
+        '${pathPrefix}settings/${widget.language}.json',
       );
       languageSet = json.decode(jsonData);
     }
@@ -120,7 +126,7 @@ class _QlockTwoState extends State<QlockTwo>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Image.asset('icons/de.png', height: 15),
+                              Image.asset('assets/icons/de.png', height: 15),
                               SizedBox(width: 10),
                               Text('German'),
                             ],
@@ -131,7 +137,7 @@ class _QlockTwoState extends State<QlockTwo>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Image.asset('icons/en.png', height: 15),
+                              Image.asset('assets/icons/en.png', height: 15),
                               SizedBox(width: 10),
                               Text('English'),
                             ],
@@ -142,7 +148,7 @@ class _QlockTwoState extends State<QlockTwo>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Image.asset('icons/fr.png', height: 15),
+                              Image.asset('assets/icons/fr.png', height: 15),
                               SizedBox(width: 10),
                               Text('French'),
                             ],

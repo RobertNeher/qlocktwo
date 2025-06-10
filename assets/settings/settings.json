@@ -1,9 +1,9 @@
 {
   "version": "0.1.0",
   "settings": {
-    "clockSize": 600,
-    "fontSizeActive": 50,
-    "fontSizeInActive": 50,
+    "clockSize": 500,
+    "fontSizeActive": 20,
+    "fontSizeInActive": 20,
     "backgroundColorOrientation": "CENTER",
     "backgroundColor":[
         "#ff9933",
@@ -16,7 +16,7 @@
     "charShadowColorActive": "#b3b3b3",
     "charColorInActive": "#999999",
     "charShadowColorInActive": "#",
-    "debugMode": true,
+    "debugMode": false,
     "debugPeriod": 500
   }
 }
