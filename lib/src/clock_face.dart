@@ -7,10 +7,10 @@ import 'package:qlocktwo/src/helper.dart';
 class ClockFace extends StatefulWidget {
   final Map<String, dynamic> settings;
   final Map<String, dynamic> languageSettings;
-  final int hour;
-  final int minute;
+  int hour;
+  int minute;
 
-  const ClockFace({
+  ClockFace({
     super.key,
     required this.hour,
     required this.minute,
@@ -23,8 +23,8 @@ class ClockFace extends StatefulWidget {
 }
 
 class _ClockFaceState extends State<ClockFace> {
-  int hour = 0;
-  int minute = 0;
+  // int hour = 0;
+  // int minute = 0;
   String time = '';
   TextStyle? activeStyle;
   TextStyle? inActiveStyle;
@@ -57,15 +57,15 @@ class _ClockFaceState extends State<ClockFace> {
             ..style = PaintingStyle.stroke,
     );
 
-    hour = DateTime.now().hour % 12;
-    minute = roundMinute(5);
+    widget.hour = DateTime.now().hour % 12;
+    widget.minute = roundMinute(5);
 
-    if (hour != 0 && minute >= 30) {
-      hour += 1;
+    if (widget.hour != 0 && widget.minute >= 30) {
+      widget.hour += 1;
     }
 
-    if (hour == 0) {
-      hour = 12;
+    if (widget.hour == 0) {
+      widget.hour = 12;
     }
 
     if (widget.settings['debugMode'] ?? true) {
@@ -73,18 +73,18 @@ class _ClockFaceState extends State<ClockFace> {
         Duration(milliseconds: widget.settings['debugPeriod']),
         (timer) {
           setState(() {
-            minute += 5;
-            if (minute >= 60) {
-              minute = 0;
-              hour += 1;
-              hour %= 12;
+            widget.minute += 5;
+            if (widget.minute >= 60) {
+              widget.minute = 0;
+              widget.hour += 1;
+              widget.hour %= 12;
 
-              if (hour != 0 && minute >= 30) {
-                hour += 1;
+              if (widget.hour != 0 && widget.minute >= 30) {
+                widget.hour += 1;
               }
 
-              if (hour == 0) {
-                hour = 12;
+              if (widget.hour == 0) {
+                widget.hour = 12;
               }
             }
           });
@@ -93,15 +93,15 @@ class _ClockFaceState extends State<ClockFace> {
     } else {
       timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
         setState(() {
-          hour = DateTime.now().hour % 12;
-          minute = roundMinute(5);
+          widget.hour = DateTime.now().hour % 12;
+          widget.minute = roundMinute(5);
 
-          if (hour != 0 && minute >= 30) {
-            hour += 1;
+          if (widget.hour != 0 && widget.minute >= 30) {
+            widget.hour += 1;
           }
 
-          if (hour == 0) {
-            hour = 12;
+          if (widget.hour == 0) {
+            widget.hour = 12;
           }
         });
       });
@@ -118,19 +118,21 @@ class _ClockFaceState extends State<ClockFace> {
   Widget build(BuildContext context) {
     if (widget.settings['debugMode'] ?? true) {
       print(
-        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+        '${widget.hour.toString().padLeft(2, '0')}:${widget.minute.toString().padLeft(2, '0')}',
       );
     }
     tileList = <Widget>[];
     minuteMaskRow = '';
     minuteMask =
-        widget.languageSettings['fiveMinutesMapping'][(minute / 5)
-            .round()][minute.toString()];
-    hourMask = widget.languageSettings['hoursMapping'][hour][hour.toString()];
+        widget.languageSettings['fiveMinutesMapping'][(widget.minute / 5)
+            .round()][widget.minute.toString()];
+    hourMask =
+        widget.languageSettings['hoursMapping'][widget.hour][widget.hour
+            .toString()];
 
     if (widget.settings['debugMode'] ?? true) {
       print(
-        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+        '${widget.hour.toString().padLeft(2, '0')}:${widget.minute.toString().padLeft(2, '0')}',
       );
     }
 
@@ -140,8 +142,8 @@ class _ClockFaceState extends State<ClockFace> {
       row++
     ) {
       if (widget.languageSettings['language'] == 'fr' &&
-          [0, 12].contains(hour) &&
-          minute == 0) {
+          [0, 12].contains(widget.hour) &&
+          widget.minute == 0) {
         continue;
       }
 
