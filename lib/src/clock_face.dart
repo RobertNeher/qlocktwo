@@ -99,7 +99,6 @@ class _ClockFaceState extends State<ClockFace> {
           if (hour != 0 && minute >= 30) {
             hour += 1;
           }
-
           if (hour == 0) {
             hour = 12;
           }

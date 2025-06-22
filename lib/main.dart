@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// import 'package:qlocktwo/src/footer.dart';
 import 'package:qlocktwo/src/qlocktwo_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -162,6 +163,10 @@ class _QlockTwoState extends State<QlockTwo>
               settings: settings,
               languageSettings: languageSet,
             ),
+            // bottomSheet:
+            //     settings['debugMode']
+            //         ? Footer(hour: hour, minute: minute)
+            //         : null,
           );
         } else {
           return const Text(
