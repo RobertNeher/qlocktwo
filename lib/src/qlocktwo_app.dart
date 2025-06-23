@@ -39,21 +39,7 @@ class _QlockTwoAppState extends State<QlockTwoApp> with WidgetsBindingObserver {
       hour = 0;
       minute = 0;
 
-      if (widget.settings['debugPeriod'] == 0) {
-        timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
-          setState(() {
-            hour = DateTime.now().hour % 12;
-            minute = roundMinute(5);
-
-            if (hour != 0 && minute >= 30) {
-              hour += 1;
-            }
-            if (hour == 0) {
-              hour = 12;
-            }
-          });
-        });
-      } else if (widget.settings['debugPeriod'] > 0) {
+      if (widget.settings['debugPeriod'] > 0) {
         timer = Timer.periodic(
           Duration(milliseconds: widget.settings['debugPeriod']),
           (timer) {
