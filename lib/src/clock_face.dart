@@ -35,7 +35,6 @@ class _ClockFaceState extends State<ClockFace> {
   String minuteMaskRow = '';
   List minuteMask = [];
   List hourMask = [];
-  late Timer timer;
 
   @override
   void initState() {
@@ -111,7 +110,6 @@ class _ClockFaceState extends State<ClockFace> {
 
   @override
   void dispose() {
-    timer.cancel();
     super.dispose();
   }
 
