@@ -1,10 +1,10 @@
 {
   "version": "0.1.0",
   "settings": {
-    "clockSize": 500,
-    "fontSizeActive": 20,
-    "fontSizeInActive": 20,
-    "backgroundColorOrientation": "CENTER",
+    "clockSize": 380,
+    "fontSizeActive": 30,
+    "fontSizeInActive": 30,
+    "backgroundColorOrientation": "BL",
     "backgroundColor":[
         "#ff9933",
         "#ffbf80",
@@ -15,8 +15,8 @@
     "charColorActive": "#ffffff",
     "charShadowColorActive": "#b3b3b3",
     "charColorInActive": "#999999",
-    "charShadowColorInActive": "#",
-    "debugMode": false,
+    "charShadowColorInActive": "#666666",
+    "debugMode": true,
     "debugPeriod": 500
   }
 }

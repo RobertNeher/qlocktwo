@@ -23,6 +23,8 @@ class ClockFace extends StatefulWidget {
 }
 
 class _ClockFaceState extends State<ClockFace> {
+  double width = 0;
+  double height = 0;
   int hour = 0;
   int minute = 0;
   String time = '';
@@ -33,7 +35,6 @@ class _ClockFaceState extends State<ClockFace> {
   String minuteMaskRow = '';
   List minuteMask = [];
   List hourMask = [];
-  late Timer timer;
 
   @override
   void initState() {
@@ -57,60 +58,58 @@ class _ClockFaceState extends State<ClockFace> {
             ..style = PaintingStyle.stroke,
     );
 
-    hour = DateTime.now().hour % 12;
-    minute = roundMinute(5);
+    // hour = DateTime.now().hour % 12;
+    // minute = roundMinute(5);
 
-    if (hour != 0 && minute >= 30) {
-      hour += 1;
-    }
+    // if (hour != 0 && minute >= 30) {
+    //   hour += 1;
+    // }
 
-    if (hour == 0) {
-      hour = 12;
-    }
+    // if (hour == 0) {
+    //   hour = 12;
+    // }
 
-    if (widget.settings['debugMode'] ?? true) {
-      timer = Timer.periodic(
-        Duration(milliseconds: widget.settings['debugPeriod']),
-        (timer) {
-          setState(() {
-            minute += 5;
-            if (minute >= 60) {
-              minute = 0;
-              hour += 1;
-              hour %= 12;
+    // if (widget.settings['debugMode'] ?? true) {
+    // timer = Timer.periodic(
+    //   Duration(milliseconds: widget.settings['debugPeriod']),
+    //   (timer) {
+    //     setState(() {
+    //       minute += 5;
+    //       if (minute >= 60) {
+    //         minute = 0;
+    //         hour += 1;
+    //         hour %= 12;
 
-              if (hour != 0 && minute >= 30) {
-                hour += 1;
-              }
+    //         if (hour != 0 && minute >= 30) {
+    //           hour += 1;
+    //         }
 
-              if (hour == 0) {
-                hour = 12;
-              }
-            }
-          });
-        },
-      );
-    } else {
-      timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
-        setState(() {
-          hour = DateTime.now().hour % 12;
-          minute = roundMinute(5);
+    //         if (hour == 0) {
+    //           hour = 12;
+    //         }
+    //       }
+    //     });
+    //   },
+    // );
+    // } else {
+    //   timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
+    //     setState(() {
+    //       hour = DateTime.now().hour % 12;
+    //       minute = roundMinute(5);
 
-          if (hour != 0 && minute >= 30) {
-            hour += 1;
-          }
-
-          if (hour == 0) {
-            hour = 12;
-          }
-        });
-      });
-    }
+    //       if (hour != 0 && minute >= 30) {
+    //         hour += 1;
+    //       }
+    //       if (hour == 0) {
+    //         hour = 12;
+    //       }
+    //     });
+    //   });
+    // }
   }
 
   @override
   void dispose() {
-    timer.cancel();
     super.dispose();
   }
 
@@ -167,11 +166,17 @@ class _ClockFaceState extends State<ClockFace> {
       }
     }
 
-    return GridView.count(
-      shrinkWrap: true,
-      primary: true,
-      crossAxisCount: widget.languageSettings['qlockTwoChars'][0].length,
-      children: tileList,
+    return Container(
+      color: Colors.transparent,
+      width: width,
+      height: height,
+      alignment: Alignment.center,
+      child: GridView.count(
+        shrinkWrap: true,
+        primary: true,
+        crossAxisCount: widget.languageSettings['qlockTwoChars'][0].length,
+        children: tileList,
+      ),
     );
   }
 }
