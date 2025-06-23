@@ -12,15 +12,7 @@ class Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width >
-        MediaQuery.of(context).size.height) {
-      windowSize = MediaQuery.of(context).size.height;
-    } else {
-      windowSize = MediaQuery.of(context).size.width;
-    }
-    if (windowSize < settings['clockSize'].toDouble()) {
-      windowSize = settings['clockSize'].toDouble();
-    }
+    windowSize = settings['clockSize'].toDouble();
 
     String orientation = settings['backgroundColorOrientation'].toUpperCase();
     if (orientation == "BL") {
