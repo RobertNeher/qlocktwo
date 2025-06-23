@@ -42,13 +42,17 @@ class _ClockFaceState extends State<ClockFace> {
 
     activeStyle = TextStyle(
       fontFamily: widget.settings['fontActive'],
-      fontSize: widget.settings['fontSizeActive'].toDouble(),
+      fontSize:
+          widget.settings['clockSize'] /
+          10, // widget.settings['fontSizeActive'].toDouble(),
       fontWeight: FontWeight.bold,
       color: colorFromString(widget.settings['charColorActive']),
     );
     inActiveStyle = TextStyle(
       fontFamily: widget.settings['fontInActive'],
-      fontSize: widget.settings['fontSizeInActive'].toDouble(),
+      fontSize:
+          widget.settings['clockSize'] /
+          10, // widget.settings['fontSizeInActive'].toDouble(),
       fontWeight: FontWeight.w200,
       foreground:
           Paint()
