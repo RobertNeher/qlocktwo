@@ -21,8 +21,6 @@ class QlockTwoApp extends StatefulWidget {
 }
 
 class _QlockTwoAppState extends State<QlockTwoApp> with WidgetsBindingObserver {
-  double height = 0;
-  double width = 0;
   TextStyle? qlockTwoActiveStyle;
   Timer? timer;
   DateFormat timeFormat = DateFormat('HH:mm');
@@ -87,15 +85,10 @@ class _QlockTwoAppState extends State<QlockTwoApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  @override
-  void didChangeMetrics() {
-    setState(() {
-      // width = View.of(context).physicalSize.width;
-      // height = View.of(context).physicalSize.height;
-      width = widget.settings['clockSize']?.toDouble() ?? 300;
-      height = widget.settings['clockSize']?.toDouble() ?? 300;
-    });
-  }
+  // Unused method
+  // @override
+  // void didChangeMetrics() {
+  // }
 
   @override
   Widget build(BuildContext context) {

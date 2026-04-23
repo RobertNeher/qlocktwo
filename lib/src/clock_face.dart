@@ -23,10 +23,9 @@ class ClockFace extends StatefulWidget {
 }
 
 class _ClockFaceState extends State<ClockFace> {
-  double width = 0;
-  double height = 0;
-  int hour = 0;
-  int minute = 0;
+  // Remove local hour/minute state and use widget.hour/minute instead
+  // double width = 0;
+  // double height = 0;
   String time = '';
   TextStyle? activeStyle;
   TextStyle? inActiveStyle;
@@ -58,54 +57,8 @@ class _ClockFaceState extends State<ClockFace> {
             ..style = PaintingStyle.stroke,
     );
 
-    // hour = DateTime.now().hour % 12;
-    // minute = roundMinute(5);
-
-    // if (hour != 0 && minute >= 30) {
-    //   hour += 1;
-    // }
-
-    // if (hour == 0) {
-    //   hour = 12;
-    // }
-
-    // if (widget.settings['debugMode'] ?? true) {
-    // timer = Timer.periodic(
-    //   Duration(milliseconds: widget.settings['debugPeriod']),
-    //   (timer) {
-    //     setState(() {
-    //       minute += 5;
-    //       if (minute >= 60) {
-    //         minute = 0;
-    //         hour += 1;
-    //         hour %= 12;
-
-    //         if (hour != 0 && minute >= 30) {
-    //           hour += 1;
-    //         }
-
-    //         if (hour == 0) {
-    //           hour = 12;
-    //         }
-    //       }
-    //     });
-    //   },
-    // );
-    // } else {
-    //   timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
-    //     setState(() {
-    //       hour = DateTime.now().hour % 12;
-    //       minute = roundMinute(5);
-
-    //       if (hour != 0 && minute >= 30) {
-    //         hour += 1;
-    //       }
-    //       if (hour == 0) {
-    //         hour = 12;
-    //       }
-    //     });
-    //   });
-    // }
+    // Dimensions are handled in build or can be set here if needed, 
+    // but better to use settings directly to ensure it stays in sync.
   }
 
   @override
@@ -117,19 +70,24 @@ class _ClockFaceState extends State<ClockFace> {
   Widget build(BuildContext context) {
     if (widget.settings['debugMode'] ?? true) {
       print(
-        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+        '${widget.hour.toString().padLeft(2, '0')}:${widget.minute.toString().padLeft(2, '0')}',
       );
     }
     tileList = <Widget>[];
     minuteMaskRow = '';
+    
+    // Ensure minute is within bounds (0-55) for mapping
+    int displayMinute = (widget.minute / 5).round() * 5;
+    if (displayMinute >= 60) displayMinute = 0;
+    
     minuteMask =
-        widget.languageSettings['fiveMinutesMapping'][(minute / 5)
-            .round()][minute.toString()];
-    hourMask = widget.languageSettings['hoursMapping'][hour][hour.toString()];
+        widget.languageSettings['fiveMinutesMapping'][(displayMinute / 5)
+            .round()][displayMinute.toString()];
+    hourMask = widget.languageSettings['hoursMapping'][widget.hour][widget.hour.toString()];
 
     if (widget.settings['debugMode'] ?? true) {
       print(
-        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+        '${widget.hour.toString().padLeft(2, '0')}:${widget.minute.toString().padLeft(2, '0')}',
       );
     }
 
@@ -139,8 +97,8 @@ class _ClockFaceState extends State<ClockFace> {
       row++
     ) {
       if (widget.languageSettings['language'] == 'fr' &&
-          [0, 12].contains(hour) &&
-          minute == 0) {
+          [0, 12].contains(widget.hour) &&
+          widget.minute == 0) {
         continue;
       }
 
@@ -168,8 +126,8 @@ class _ClockFaceState extends State<ClockFace> {
 
     return Container(
       color: Colors.transparent,
-      width: width,
-      height: height,
+      width: widget.settings['clockSize']?.toDouble() ?? 300,
+      height: widget.settings['clockSize']?.toDouble() ?? 300,
       alignment: Alignment.center,
       child: GridView.count(
         shrinkWrap: true,
