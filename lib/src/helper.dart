@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 // colorString is expected in following format:
 // '#<red in hex><green in hex><blue in hex>', eg. '#262626'
 Color colorFromString(String colorString) {
-  String color = '0xff${colorString.substring(1)}';
-  return Color(int.parse(color));
+  String hex = colorString.replaceAll('#', '');
+  if (hex.length == 6) {
+    hex = 'FF$hex';
+  }
+  return Color(int.parse(hex, radix: 16));
 }
 
 Color complimentaryColor(Color color) {

@@ -14,9 +14,9 @@
     "fontInActive": "Rubik Vinyl",
     "charColorActive": "#ffffff",
     "charShadowColorActive": "#b3b3b3",
-    "charColorInActive": "#999999",
+    "charColorInActive": "#33999999",
     "charShadowColorInActive": "#666666",
     "debugMode": true,
-    "debugPeriod": 500
+    "debugPeriod": 5000
   }
 }

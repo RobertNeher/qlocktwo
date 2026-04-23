@@ -20,7 +20,8 @@ class QlockTwoApp extends StatefulWidget {
   State<QlockTwoApp> createState() => _QlockTwoAppState();
 }
 
-class _QlockTwoAppState extends State<QlockTwoApp> with WidgetsBindingObserver {
+class _QlockTwoAppState extends State<QlockTwoApp> with TickerProviderStateMixin, WidgetsBindingObserver {
+  late AnimationController _progressController;
   TextStyle? qlockTwoActiveStyle;
   Timer? timer;
   DateFormat timeFormat = DateFormat('HH:mm');
@@ -32,6 +33,15 @@ class _QlockTwoAppState extends State<QlockTwoApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     qlockTwoActiveStyle = TextStyle();
+
+    int durationMs = widget.settings['debugMode']
+        ? widget.settings['debugPeriod']
+        : 5 * 60 * 1000;
+
+    _progressController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: durationMs),
+    )..repeat();
 
     if (widget.settings['debugMode']) {
       hour = 0;
@@ -82,6 +92,7 @@ class _QlockTwoAppState extends State<QlockTwoApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     timer?.cancel();
+    _progressController.dispose();
     super.dispose();
   }
 
@@ -92,17 +103,39 @@ class _QlockTwoAppState extends State<QlockTwoApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topLeft,
-      children: [
-        Background(settings: widget.settings),
-        ClockFace(
-          hour: hour,
-          minute: minute,
-          settings: widget.settings,
-          languageSettings: widget.languageSettings,
-        ),
-      ],
+    return SizedBox(
+      width: widget.settings['clockSize']?.toDouble() ?? 300,
+      height: widget.settings['clockSize']?.toDouble() ?? 300,
+      child: Stack(
+        alignment: Alignment.topLeft,
+        children: [
+          Background(settings: widget.settings),
+          ClockFace(
+            hour: hour,
+            minute: minute,
+            settings: widget.settings,
+            languageSettings: widget.languageSettings,
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: AnimatedBuilder(
+              animation: _progressController,
+              builder: (context, child) {
+                return LinearProgressIndicator(
+                  value: _progressController.value,
+                  backgroundColor: Colors.transparent,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    colorFromString(widget.settings['charColorActive']),
+                  ),
+                  minHeight: 4,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
