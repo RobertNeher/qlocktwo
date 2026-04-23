@@ -16,7 +16,7 @@
     "charShadowColorActive": "#b3b3b3",
     "charColorInActive": "#33999999",
     "charShadowColorInActive": "#666666",
-    "debugMode": true,
+    "debugMode": false,
     "debugPeriod": 5000
   }
 }

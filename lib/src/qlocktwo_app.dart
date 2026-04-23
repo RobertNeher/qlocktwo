@@ -25,14 +25,43 @@ class _QlockTwoAppState extends State<QlockTwoApp> with TickerProviderStateMixin
   TextStyle? qlockTwoActiveStyle;
   Timer? timer;
   DateFormat timeFormat = DateFormat('HH:mm');
-  int hour = DateTime.now().hour;
-  int minute = roundMinute(5);
+  int hour = 0;
+  int minute = 0;
+
+  void _updateTime() {
+    setState(() {
+      DateTime now = DateTime.now();
+      hour = now.hour % 12;
+      minute = roundMinute(5);
+
+      // In QlockTwo, if we are past the half hour mark, 
+      // we already refer to the NEXT hour (e.g. "Ten to Eleven")
+      if (minute >= 30) {
+        hour += 1;
+      }
+      
+      // Handle wrap-around for rounded minutes
+      if (minute >= 60) {
+        minute = 0;
+      }
+
+      // Handle 12-hour format boundaries
+      if (hour > 12) {
+        hour -= 12;
+      }
+      if (hour == 0) {
+        hour = 12;
+      }
+    });
+  }
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
 
     qlockTwoActiveStyle = TextStyle();
+    
+    _updateTime();
 
     int durationMs = widget.settings['debugMode']
         ? widget.settings['debugPeriod']
@@ -69,21 +98,11 @@ class _QlockTwoAppState extends State<QlockTwoApp> with TickerProviderStateMixin
             });
           },
         );
-      } else {
-        timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
-          setState(() {
-            hour = DateTime.now().hour % 12;
-            minute = roundMinute(5);
-
-            if (hour != 0 && minute >= 30) {
-              hour += 1;
-            }
-            if (hour == 0) {
-              hour = 12;
-            }
-          });
-        });
       }
+    } else {
+      timer = Timer.periodic(const Duration(seconds: 5 * 60), (timer) {
+        _updateTime();
+      });
     }
     super.initState();
   }
