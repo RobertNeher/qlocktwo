@@ -6,16 +6,19 @@
     "fontSizeInActive": 30,
     "backgroundColorOrientation": "BL",
     "backgroundColor":[
-        "#ff9933",
-        "#ffbf80",
-        "#ffdb99"
+        "#7D4F20",
+        "#B8860B",
+        "#CD7F32",
+        "#E1A95F",
+        "#F5DEB3",
+        "#E1A95F"
     ],
     "fontActive": "RobotoFlex",
     "fontInActive": "Rubik Vinyl",
-    "charColorActive": "#ffffff",
-    "charShadowColorActive": "#b3b3b3",
-    "charColorInActive": "#33999999",
-    "charShadowColorInActive": "#666666",
+    "charColorActive": "#FFFFFF",
+    "charShadowColorActive": "#FFE4B5",
+    "charColorInActive": "#44000000",
+    "charShadowColorInActive": "#22000000",
     "debugMode": false,
     "debugPeriod": 5000
   }
