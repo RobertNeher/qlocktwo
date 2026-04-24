@@ -43,7 +43,7 @@ class _ClockFaceState extends State<ClockFace> {
   }
 
   void _updateStyles() {
-    final double fontSize = widget.size * 0.05;
+    final double fontSize = widget.size * 0.07;
     
     activeStyle = TextStyle(
       fontFamily: widget.settings['fontActive'],
@@ -131,16 +131,20 @@ class _ClockFaceState extends State<ClockFace> {
       }
     }
 
-    return Container(
-      color: Colors.transparent,
-      width: widget.size,
-      height: widget.size,
-      alignment: Alignment.center,
-      child: GridView.count(
-        shrinkWrap: true,
-        primary: true,
-        crossAxisCount: widget.languageSettings['qlockTwoChars'][0].length,
-        children: tileList,
+    return Padding(
+      padding: EdgeInsets.all(widget.size * 0.03),
+      child: Container(
+        color: Colors.transparent,
+        width: widget.size,
+        height: widget.size,
+        alignment: Alignment.center,
+        child: GridView.count(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          primary: true,
+          crossAxisCount: widget.languageSettings['qlockTwoChars'][0].length,
+          children: tileList,
+        ),
       ),
     );
   }
