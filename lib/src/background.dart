@@ -3,17 +3,13 @@ import 'package:qlocktwo/src/helper.dart';
 
 class Background extends StatelessWidget {
   final Map<String, dynamic> settings;
+  final double size;
   Alignment colorAlignment = Alignment.center;
-  double windowSize = 0;
 
-  Background({super.key, required this.settings}) {
-    windowSize = settings['clockSize'].toDouble();
-  }
+  Background({super.key, required this.settings, required this.size});
 
   @override
   Widget build(BuildContext context) {
-    windowSize = settings['clockSize'].toDouble();
-
     String orientation = settings['backgroundColorOrientation']?.toUpperCase() ?? "BL";
     final Map<String, Alignment> alignments = {
       "BL": Alignment.bottomLeft,
@@ -38,8 +34,8 @@ class Background extends StatelessWidget {
     }
 
     return Container(
-      height: windowSize,
-      width: windowSize,
+      height: size,
+      width: size,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: colorAlignment,

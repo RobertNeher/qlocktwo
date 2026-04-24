@@ -9,6 +9,7 @@ class ClockFace extends StatefulWidget {
   final Map<String, dynamic> languageSettings;
   final int hour;
   final int minute;
+  final double size;
 
   const ClockFace({
     super.key,
@@ -16,6 +17,7 @@ class ClockFace extends StatefulWidget {
     required this.minute,
     required this.settings,
     required this.languageSettings,
+    required this.size,
   });
 
   @override
@@ -38,39 +40,41 @@ class _ClockFaceState extends State<ClockFace> {
   @override
   void initState() {
     super.initState();
+  }
 
+  void _updateStyles() {
+    final double fontSize = widget.size * 0.05;
+    
     activeStyle = TextStyle(
       fontFamily: widget.settings['fontActive'],
-      fontSize: widget.settings['fontSizeActive'].toDouble(),
+      fontSize: fontSize,
       fontWeight: FontWeight.bold,
       color: colorFromString(widget.settings['charColorActive']),
       shadows: [
         Shadow(
-          blurRadius: 10,
+          blurRadius: widget.size * 0.017,
           color: colorFromString(widget.settings['charShadowColorActive']),
           offset: Offset(0, 0),
         ),
         Shadow(
-          blurRadius: 20,
+          blurRadius: widget.size * 0.034,
           color: colorFromString(widget.settings['charShadowColorActive']).withOpacity(0.5),
           offset: Offset(0, 0),
         ),
       ],
     );
+    
     inActiveStyle = TextStyle(
       fontFamily: widget.settings['fontInActive'],
-      fontSize: widget.settings['fontSizeInActive'].toDouble(),
+      fontSize: fontSize,
       fontWeight: FontWeight.w100,
       foreground:
           Paint()
             ..color = colorFromString(widget.settings['charColorInActive']).withOpacity(0.15)
-            ..strokeWidth = 1.0
+            ..strokeWidth = widget.size * 0.0017
             ..strokeCap = StrokeCap.round
             ..style = PaintingStyle.stroke,
     );
-
-    // Dimensions are handled in build or can be set here if needed, 
-    // but better to use settings directly to ensure it stays in sync.
   }
 
   @override
@@ -80,6 +84,7 @@ class _ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
+    _updateStyles();
     tileList = <Widget>[];
     minuteMaskRow = '';
     
@@ -128,8 +133,8 @@ class _ClockFaceState extends State<ClockFace> {
 
     return Container(
       color: Colors.transparent,
-      width: widget.settings['clockSize']?.toDouble() ?? 300,
-      height: widget.settings['clockSize']?.toDouble() ?? 300,
+      width: widget.size,
+      height: widget.size,
       alignment: Alignment.center,
       child: GridView.count(
         shrinkWrap: true,

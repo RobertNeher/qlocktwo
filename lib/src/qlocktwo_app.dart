@@ -122,39 +122,50 @@ class _QlockTwoAppState extends State<QlockTwoApp> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.settings['clockSize']?.toDouble() ?? 300,
-      height: widget.settings['clockSize']?.toDouble() ?? 300,
-      child: Stack(
-        alignment: Alignment.topLeft,
-        children: [
-          Background(settings: widget.settings),
-          ClockFace(
-            hour: hour,
-            minute: minute,
-            settings: widget.settings,
-            languageSettings: widget.languageSettings,
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: AnimatedBuilder(
-              animation: _progressController,
-              builder: (context, child) {
-                return LinearProgressIndicator(
-                  value: _progressController.value,
-                  backgroundColor: Colors.transparent,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    colorFromString(widget.settings['charColorActive']),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double clockSize = constraints.maxWidth < constraints.maxHeight
+            ? constraints.maxWidth
+            : constraints.maxHeight;
+
+        return Center(
+          child: SizedBox(
+            width: clockSize,
+            height: clockSize,
+            child: Stack(
+              alignment: Alignment.topLeft,
+              children: [
+                Background(settings: widget.settings, size: clockSize),
+                ClockFace(
+                  hour: hour,
+                  minute: minute,
+                  settings: widget.settings,
+                  languageSettings: widget.languageSettings,
+                  size: clockSize,
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: AnimatedBuilder(
+                    animation: _progressController,
+                    builder: (context, child) {
+                      return LinearProgressIndicator(
+                        value: _progressController.value,
+                        backgroundColor: Colors.transparent,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          colorFromString(widget.settings['charColorActive']),
+                        ),
+                        minHeight: 4,
+                      );
+                    },
                   ),
-                  minHeight: 4,
-                );
-              },
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
