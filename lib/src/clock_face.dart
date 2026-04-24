@@ -60,12 +60,12 @@ class _ClockFaceState extends State<ClockFace> {
     inActiveStyle = TextStyle(
       fontFamily: widget.settings['fontInActive'],
       fontSize: widget.settings['fontSizeInActive'].toDouble(),
-      fontWeight: FontWeight.w200,
+      fontWeight: FontWeight.w100,
       foreground:
           Paint()
-            ..color = colorFromString(widget.settings['charColorInActive'])
-            ..strokeWidth = 3
-            ..strokeCap = StrokeCap.butt
+            ..color = colorFromString(widget.settings['charColorInActive']).withOpacity(0.15)
+            ..strokeWidth = 1.0
+            ..strokeCap = StrokeCap.round
             ..style = PaintingStyle.stroke,
     );
 
